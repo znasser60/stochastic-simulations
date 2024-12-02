@@ -51,3 +51,15 @@ class MM1SJFQueueSimulation:
         avg_waiting_time = np.mean(self.waiting_times) if self.waiting_times else 0
 
         return avg_waiting_time
+        
+lambd = 9
+mu = 10
+simulation_time = 10000
+num_simulations = 3
+
+for i in range(num_simulations):
+    env = simpy.Environment()
+    simulation2 = MM1SJFQueueSimulation(env, lambd, mu)
+    results2 = simulation2.average_wait_time_run(simulation_time)
+
+    print(f'Run {i+1}: Average Waiting Time for Shortest Job First Simulation (n=1) = {results2: .2f}')
