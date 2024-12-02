@@ -41,3 +41,13 @@ class MM1SJFQueueSimulation:
             yield self.env.timeout(service_time)
 
         self.server_busy = False #Set the server status to free when there are no jobs left
+
+    def average_wait_time_run(self, simulation_time):
+        '''
+        Generator function to calculate the wait times for
+        '''
+        self.env.process(self.arrival_process())
+        self.env.run(until=simulation_time)
+        avg_waiting_time = np.mean(self.waiting_times) if self.waiting_times else 0
+
+        return avg_waiting_time
