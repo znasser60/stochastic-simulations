@@ -26,3 +26,18 @@ class MM1SJFQueueSimulation:
             # If server is free, continue to the service process
             if not self.server_busy:
                 self.env.process(self.service_process())
+
+    def service_process(self):
+        '''
+        Generator function to simulate the service process for jobs in the queue.
+        '''
+        while self.queue:
+            # Completes service process and removes shortest job from queue when done
+            self.server_busy = True
+            arrival_time, service_time = self.queue.pop(0)# Shortest job in the queue is always served first
+            waiting_time = self.env.now - arrival_time
+            self.waiting_times.append(waiting_time)
+
+            yield self.env.timeout(service_time)
+
+        self.server_busy = False #Set the server status to free when there are no jobs left
